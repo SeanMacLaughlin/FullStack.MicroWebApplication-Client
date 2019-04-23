@@ -21,4 +21,14 @@ export class ProfileService {
     const url = `${this.profileUrl}/allProfiles`;
     return this.http.get<Profile[]>(url);
   }
+
+  deleteProfile(id: number): Observable<Profile> {
+    const url = `${this.profileUrl}/${id}`;
+    return this.http.delete<Profile>(url);
+  }
+
+  createProfile(profile: Profile): Observable<Profile> {
+    const url = `${this.profileUrl}`;
+    return this.http.post<Profile>(url, profile);
+  }
 }
