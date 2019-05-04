@@ -22,6 +22,11 @@ export class AccountService {
     return this.http.get<Account[]>(url);
   }
 
+  getBalanceHistory(accountID: number): Observable<number[]> {
+    const url = `${this.accountUrl}/balanceHistory/${accountID}`;
+    return this.http.get<number[]>(url);
+  }
+
   deposit(id: number, amount: number): Observable<Account> {
     const url = `${this.accountUrl}/deposit/${id}/${amount}`;
     return this.http.put<Account>(url, []);
@@ -33,7 +38,7 @@ export class AccountService {
   }
 
 
-  transfer(idFrom: number, idTo: number, amount: number):Observable<Account[]> {
+  transfer(idFrom: number, idTo: number, amount: number): Observable<Account[]> {
     const url = `${this.accountUrl}/transfer/${idTo}/${idFrom}/${amount}`;
     return this.http.put<Account[]>(url, []);
   }
