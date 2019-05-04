@@ -33,7 +33,7 @@ export class AccountService {
   }
 
 
-  transfer(idFrom: number, idTo: number, amount: number):Observable<Account[]> {
+  transfer(idFrom: number, idTo: number, amount: number): Observable<Account[]> {
     const url = `${this.accountUrl}/transfer/${idTo}/${idFrom}/${amount}`;
     return this.http.put<Account[]>(url, []);
   }
