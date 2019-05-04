@@ -37,8 +37,7 @@ export class AccountDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getAccount();
-    this.getAccountBalanceHistory();
-    this.createChart();
+    // this.getAccountBalanceHistory();
   }
 
   private getAccount() {
@@ -82,7 +81,6 @@ export class AccountDetailsComponent implements OnInit {
     this.chart = new Chart('canvas', {
       type: 'line',
       data: {
-        labels: this.balanceHistory.length,
         dataset: {
           data: this.balanceHistory,
           borderColor: '#3cba9f',
