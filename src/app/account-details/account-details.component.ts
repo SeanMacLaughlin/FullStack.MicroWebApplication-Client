@@ -8,6 +8,8 @@ import {Profile} from '../profile';
 import {ProfileDetailComponent} from '../profile-detail/profile-detail.component'
 import {Location} from '@angular/common';
 
+import { Chart } from 'chart.js';
+
 
 
 @Component({
@@ -20,6 +22,8 @@ export class AccountDetailsComponent implements OnInit {
   accounts: Account[];
   profile: Profile;
   activeAccounts: Account[];
+  balanceHistory: number[];
+  chart: [];
 
   constructor(
     private accountService: AccountService,
@@ -33,6 +37,8 @@ export class AccountDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getAccount();
+    this.getAccountBalanceHistory();
+    this.createChart();
   }
 
   private getAccount() {
@@ -42,6 +48,11 @@ export class AccountDetailsComponent implements OnInit {
 
   public getThisProfileAccounts() {
     this.accountService.getAccounts(this.account.profileID).subscribe(accounts => this.accounts = accounts);
+  }
+
+  public getAccountBalanceHistory() {
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.accountService.getBalanceHistory(id).subscribe(balanceHistory => this.balanceHistory = balanceHistory);
   }
 
   public deposit(amount: number) {
@@ -65,5 +76,32 @@ export class AccountDetailsComponent implements OnInit {
 
   public deleteAccount(id: number) {
     this.accountService.deleteAccount(id).subscribe(account => this.account = account);
+  }
+
+  public createChart() {
+    this.chart = new Chart('canvas', {
+      type: 'line',
+      data: {
+        labels: this.balanceHistory.length,
+        dataset: {
+          data: this.balanceHistory,
+          borderColor: '#3cba9f',
+          fill: false
+        },
+        options: {
+          legend: {
+            display: false
+          },
+          scales: {
+            xAxes: [{
+              display: true
+            }],
+            yAxes: [{
+              display: true
+            }],
+          }
+      }
+      }
+    });
   }
 }
