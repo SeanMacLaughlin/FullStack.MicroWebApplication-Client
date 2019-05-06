@@ -14,6 +14,8 @@ import {AccountsComponent} from './accounts/accounts.component';
 import {AccountComponent} from './account/account.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { SafeDeleteComponent } from './safe-delete/safe-delete.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -27,13 +29,15 @@ import { SafeDeleteComponent } from './safe-delete/safe-delete.component';
     AccountsComponent,
     AccountComponent,
     HomepageComponent,
-    SafeDeleteComponent
+    SafeDeleteComponent,
+    LineChartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

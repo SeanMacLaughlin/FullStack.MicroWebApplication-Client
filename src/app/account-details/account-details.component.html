@@ -56,10 +56,17 @@
       </div>
     </div>
   </div>
-  <div *ngFor= "let account of accounts" routerLink="/accounts/{{account.id}}">
-  </div>
-  <div *ngIf="chart">
-    <canvas id="canvas">{{ chart }}</canvas>
+  <div class="flex-item">
+    <div style="display: block;">
+      <canvas baseChart width="400" height="200"
+              [datasets]="lineChartData"
+              [labels]="lineChartLabels"
+              [options]="lineChartOptions"
+              [colors]="lineChartColors"
+              [legend]="lineChartLegend"
+              [chartType]="lineChartType">
+      </canvas>
+    </div>
   </div>
   <p class="lead">
     <a class="btn btn-primary btn-lg" routerLink="/profiles/{{account.profileID}}" role="button" >Go Back to Accounts</a>
