@@ -58,9 +58,7 @@
   </div>
   <div *ngFor= "let account of accounts" routerLink="/accounts/{{account.id}}">
   </div>
-  <div *ngIf="chart">
-    <canvas id="canvas">{{ chart }}</canvas>
-  </div>
+  <h5>{{ balanceHistory }}</h5>
   <p class="lead">
     <a class="btn btn-primary btn-lg" routerLink="/profiles/{{account.profileID}}" role="button" >Go Back to Accounts</a>
     <button class="btn btn-danger btn-lg" (click)= "deleteAccount(account.id)" routerLink="/safe-delete" >Delete Account</button>

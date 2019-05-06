@@ -5,10 +5,8 @@ import {ProfileService} from '../services/profile.service';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Account} from '../account';
 import {Profile} from '../profile';
-import {ProfileDetailComponent} from '../profile-detail/profile-detail.component'
 import {Location} from '@angular/common';
 
-import { Chart } from 'chart.js';
 
 
 
@@ -23,7 +21,6 @@ export class AccountDetailsComponent implements OnInit {
   profile: Profile;
   activeAccounts: Account[];
   balanceHistory: number[];
-  chart: [];
 
   constructor(
     private accountService: AccountService,
@@ -37,7 +34,7 @@ export class AccountDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getAccount();
-    // this.getAccountBalanceHistory();
+    this.getAccountBalanceHistory();
   }
 
   private getAccount() {
@@ -54,20 +51,26 @@ export class AccountDetailsComponent implements OnInit {
     this.accountService.getBalanceHistory(id).subscribe(balanceHistory => this.balanceHistory = balanceHistory);
   }
 
-  public deposit(amount: number) {
+  public async deposit(amount: number) {
     const id = +this.route.snapshot.paramMap.get('id');
     this.accountService.deposit(id, amount).subscribe(account => this.account = account);
+    await this.delay(100);
+    this.getAccountBalanceHistory();
   }
 
-  public withdraw(amount: number) {
+  public async withdraw(amount: number) {
     const id = +this.route.snapshot.paramMap.get('id');
     this.accountService.withdraw(id, amount).subscribe(account => this.account = account);
+    await this.delay(100);
+    this.getAccountBalanceHistory();
   }
 
-  public transfer(accountToId: number, amount: number){
+  public async transfer(accountToId: number, amount: number){
     const id = +this.route.snapshot.paramMap.get('id');
     this.accountService.transfer(id, accountToId, amount).subscribe(accounts => this.activeAccounts = accounts);
+    await this.delay(100);
     this.account = this.activeAccounts[1];
+    this.getAccountBalanceHistory();
   }
   goBack(): void {
     this.location.back();
@@ -77,29 +80,8 @@ export class AccountDetailsComponent implements OnInit {
     this.accountService.deleteAccount(id).subscribe(account => this.account = account);
   }
 
-  public createChart() {
-    this.chart = new Chart('canvas', {
-      type: 'line',
-      data: {
-        dataset: {
-          data: this.balanceHistory,
-          borderColor: '#3cba9f',
-          fill: false
-        },
-        options: {
-          legend: {
-            display: false
-          },
-          scales: {
-            xAxes: [{
-              display: true
-            }],
-            yAxes: [{
-              display: true
-            }],
-          }
-      }
-      }
-    });
+  private delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
+
 }
